@@ -1,0 +1,31 @@
+# @package _global_
+# S0 scenario: MMD-linear with random_forest classifier.
+
+experiment_name: s0_mmd_linear_rf
+
+seed: 42
+
+scenario:
+  name: S0
+  data_dir: data/raw/cta_prod5/dl1
+  perturbation_intensity: 1.0
+  split_ratios: [0.70, 0.15, 0.15]
+  subsample: null
+
+method:
+  name: mmd_linear
+  lambda_reg: 1.0e-3
+
+classifier: random_forest
+classifier_params:
+  n_estimators: 100
+  criterion: entropy
+
+model:
+  name: logistic_regression
+
+output_dir: results/s0_mmd_linear_rf
+
+hydra:
+  run:
+    dir: results//

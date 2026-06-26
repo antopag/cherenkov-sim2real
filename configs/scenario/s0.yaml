@@ -1,0 +1,4 @@
+name: S0
+perturbation_intensity: 1.0
+seed: 42
+subsample: null

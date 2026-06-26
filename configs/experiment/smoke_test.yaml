@@ -1,0 +1,22 @@
+# @package _global_
+# Smoke test: logistic regression, source-only, on UCI MAGIC.
+# Not a real benchmark run — validates the full chain.
+
+experiment_name: smoke_test
+
+seed: 42
+
+data:
+  name: uci_magic
+  data_dir: data/raw/uci_magic
+  split_ratios: [0.70, 0.15, 0.15]
+
+model:
+  name: logistic_regression
+
+output_dir: results/smoke_test
+
+# Hydra output convention — see CLAUDE.md §4b.
+hydra:
+  run:
+    dir: results/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}

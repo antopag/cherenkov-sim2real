@@ -1,0 +1,143 @@
+# ---------------------------------------------------------------------------
+# Minimal pyproject.toml.
+#
+# Runtime and dev dependencies are declared in environment.yml (conda env
+# `cherenkov`). This file ONLY:
+#   1. Makes the package installable in editable mode:
+#          pip install -e .         (run inside `cherenkov`)
+#   2. Configures ruff / black / mypy / pytest.
+#
+# Do NOT add a [project.dependencies] list here -- environment.yml is the
+# single source of truth. See CLAUDE.md.
+# ---------------------------------------------------------------------------
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cherenkov-sim2real"
+version = "0.1.0"
+description = "Sim-to-real domain adaptation benchmark for IACT gamma-ray event classification."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Antonio Pagliaro", email = "antonio.pagliaro@gmail.com" },
+]
+keywords = [
+  "domain-adaptation",
+  "sim-to-real",
+  "gamma-ray-astronomy",
+  "iact",
+  "cherenkov",
+  "machine-learning",
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# ---------------------------------------------------------------------------
+# Ruff: linting + import sorting. Replaces flake8 + isort.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+extend-exclude = ["notebooks", "data", "results", "mlruns"]
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "B",   # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "UP",  # pyupgrade
+  "N",   # pep8-naming
+  "SIM", # flake8-simplify
+  "RUF", # ruff-specific
+]
+ignore = [
+  "E501", # handled by black / line-length
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["N802", "N803", "N806"]   # test names + X,y convention
+"scripts/**/*.py" = ["N999", "N806"]         # script filenames + X,y convention
+"src/**/adaptation/**/*.py" = ["N803"]       # X parameter convention
+"src/**/data/**/*.py" = ["N803"]             # X parameter convention
+"src/**/perturbations/**/*.py" = ["N803"]    # X parameter convention
+"src/**/scenarios/**/*.py" = ["N803"]        # X parameter convention
+"src/**/shift_diagnostics/**/*.py" = ["N803"]  # X parameter convention
+
+# ---------------------------------------------------------------------------
+# Black: formatting.
+# ---------------------------------------------------------------------------
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+extend-exclude = """
+(
+    /notebooks
+  | /data
+  | /results
+  | /mlruns
+)
+"""
+
+# ---------------------------------------------------------------------------
+# Mypy: strict mode. Loosen per-package only when a third-party lib has no
+# stubs and stubs are not worth writing.
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_configs = true
+warn_unreachable = true
+show_error_codes = true
+pretty = true
+files = ["src", "tests", "scripts"]
+exclude = "(notebooks|data|results|mlruns)"
+
+[[tool.mypy.overrides]]
+module = [
+  "captum.*",
+  "mlflow.*",
+  "pandas.*",
+  "seaborn.*",
+  "matplotlib.*",
+  "scipy.*",
+  "sklearn.*",
+  "tables.*",
+  "torchvision.*",
+  "hydra.*",
+  "omegaconf.*",
+]
+ignore_missing_imports = true
+
+# ---------------------------------------------------------------------------
+# Pytest.
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = [
+  "-ra",
+  "--strict-markers",
+  "--strict-config",
+  "--cov=cherenkov_sim2real",
+  "--cov-report=term-missing",
+]
+markers = [
+  "slow: tests that take more than a few seconds",
+  "gpu: tests that require a CUDA device",
+  "data: tests that require downloaded datasets",
+]

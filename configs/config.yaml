@@ -1,0 +1,27 @@
+# Root Hydra config. Compose by selecting one entry from each group, or
+# by selecting an `experiment/...` config that fixes the full combination.
+#
+# Usage:
+#   python scripts/run_experiment.py experiment=smoke_test
+
+defaults:
+  - _self_
+  - data: null         # to be filled by subconfigs in configs/data/
+  - model: null        # to be filled by subconfigs in configs/model/
+  - adaptation: null   # to be filled by subconfigs in configs/adaptation/
+  - experiment: null   # composed configs in configs/experiment/
+
+seed: 0
+n_seeds: 5
+
+# experiment_name is REQUIRED — no default. Hydra must error out if missing.
+# Set this in every configs/experiment/*.yaml. See CLAUDE.md §4b.
+experiment_name: ???
+
+paths:
+  data_root: ${oc.env:CHERENKOV_DATA_ROOT,data}
+  results_root: ${oc.env:CHERENKOV_RESULTS_ROOT,results}
+
+mlflow:
+  tracking_uri: file:./mlruns
+  experiment_name: cherenkov-sim2real
