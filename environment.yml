@@ -1,0 +1,77 @@
+# ---------------------------------------------------------------------------
+# Environment for cherenkov-sim2real.
+#
+# `angelica` is a pre-existing environment for other projects and must not
+# be modified. This `cherenkov` env is fully independent. See CLAUDE.md.
+#
+# Bootstrap:
+#     conda env create -f environment.yml
+#
+# Update:
+#     conda env update -n cherenkov -f environment.yml --prune
+#
+# Then, from the project root:
+#     conda activate cherenkov
+#     pip install -e .
+# ---------------------------------------------------------------------------
+name: cherenkov
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - pip
+  - setuptools<81        # gammapy 1.1 requires pkg_resources
+
+  # BLAS: force OpenBLAS. MKL caused segfaults on matrix ops >100 rows
+  # on Windows. Do not relax these pins.
+  - libblas=*=*openblas*
+  - nomkl
+
+  # Scientific stack — numpy and astropy pinned for Gammapy 1.1 compatibility
+  - numpy<2.0
+  - astropy<6.0
+  - pandas
+  - scipy
+  - scikit-learn
+  - pyyaml
+  - tqdm
+
+  # Plotting
+  - matplotlib
+  - seaborn
+
+  # ML models
+  - xgboost
+  - lightgbm
+
+  # Configuration & experiment tracking
+  - hydra-core
+  - omegaconf
+  - mlflow
+
+  # Gamma-ray astronomy — pinned to validated versions
+  - gammapy=1.1
+  - regions
+  - iminuit
+
+  # CTA data access — pinned to Prod5 DL1/DL2 schema version
+  - ctapipe=0.17.0
+
+  # Lint / format / type-check / test
+  - ruff
+  - black
+  - mypy
+  - pytest
+  - pytest-cov
+
+  # Optional: uncomment only if needed for raw DL0 simtel access
+  # - eventio          # required only for raw DL0 simtel access
+  # - pyhessio         # required only for legacy simtel access
+
+  # PyTorch installed via pip for reliable CUDA bundling on Windows
+  - pip:
+      - torch
+      - torchvision
+      - captum

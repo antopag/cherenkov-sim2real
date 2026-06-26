@@ -1,0 +1,2 @@
+name: coral
+lambda_reg: 1.0e-3

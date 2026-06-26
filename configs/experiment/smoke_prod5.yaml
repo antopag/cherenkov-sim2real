@@ -1,0 +1,23 @@
+# @package _global_
+# Smoke test on CTA Prod5 DL1 (single gamma-diffuse file, dev sample).
+# Validates the full pipeline on Prod5 data. Not a benchmark run.
+
+experiment_name: smoke_prod5
+
+seed: 42
+
+data:
+  name: cta_prod5
+  data_dir: data/raw/cta_prod5/dl1
+  file_name: gamma-diffuse_with_images_40.dl2.h5
+  split_ratios: [0.70, 0.15, 0.15]
+
+model:
+  name: logistic_regression
+
+output_dir: results/smoke_prod5
+
+# Hydra output convention — see CLAUDE.md §4b.
+hydra:
+  run:
+    dir: results/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}

@@ -1,0 +1,36 @@
+# @package _global_
+# S0 scenario: mean matching with MLP-shallow classifier.
+
+experiment_name: s0_mean_matching_mlp
+
+seed: 42
+
+scenario:
+  name: S0
+  data_dir: data/raw/cta_prod5/dl1
+  perturbation_intensity: 1.0
+  split_ratios: [0.70, 0.15, 0.15]
+  subsample: null
+
+method:
+  name: mean_matching
+
+classifier: mlp_shallow
+classifier_params:
+  hidden_layer_sizes: [64, 32]
+  activation: relu
+  solver: adam
+  alpha: 0.0001
+  batch_size: 256
+  max_iter: 200
+  early_stopping: true
+  validation_fraction: 0.1
+
+model:
+  name: logistic_regression
+
+output_dir: results/s0_mean_matching_mlp
+
+hydra:
+  run:
+    dir: results/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}

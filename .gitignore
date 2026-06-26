@@ -1,0 +1,96 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+develop-eggs/
+.installed.cfg
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ---------------------------------------------------------------------------
+# Virtual envs (we use conda env `angelica`, but guard against accidents)
+# ---------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.python-version.local
+
+# ---------------------------------------------------------------------------
+# Testing / coverage / type-checking caches
+# ---------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+# ---------------------------------------------------------------------------
+# Project artefacts -- NEVER commit data, downloads, or experiment outputs
+# (the README.md placeholders are tracked so the directories survive in git)
+# ---------------------------------------------------------------------------
+data/*
+!data/README.md
+results/*
+!results/README.md
+mlruns/
+mlartifacts/
+wandb/
+outputs/
+multirun/
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.parquet
+*.feather
+
+# Large raw downloads occasionally land here -- keep them out
+*.tar.gz
+*.tgz
+*.zip
+*.gz
+
+# ---------------------------------------------------------------------------
+# Notebooks: ignore checkpoints, keep the .ipynb itself
+# ---------------------------------------------------------------------------
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------------------
+# IDE / editor / OS
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------------------
+# Local secrets / per-machine overrides
+# ---------------------------------------------------------------------------
+.env
+.env.local
+*.local.yaml
+*.local.yml
+configs/local/

@@ -1,0 +1,29 @@
+# @package _global_
+# S0 scenario: MMD-rbf with logistic_regression classifier.
+
+experiment_name: s0_mmd_rbf_lr
+
+seed: 42
+
+scenario:
+  name: S0
+  data_dir: data/raw/cta_prod5/dl1
+  perturbation_intensity: 1.0
+  split_ratios: [0.70, 0.15, 0.15]
+  subsample: null
+
+method:
+  name: mmd_rbf
+  lambda_reg: 1.0e-3
+  max_iter: 100
+
+classifier: logistic_regression
+
+model:
+  name: logistic_regression
+
+output_dir: results/s0_mmd_rbf_lr
+
+hydra:
+  run:
+    dir: results//

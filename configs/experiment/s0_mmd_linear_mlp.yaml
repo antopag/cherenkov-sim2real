@@ -1,0 +1,37 @@
+# @package _global_
+# S0 scenario: MMD-linear with mlp_shallow classifier.
+
+experiment_name: s0_mmd_linear_mlp
+
+seed: 42
+
+scenario:
+  name: S0
+  data_dir: data/raw/cta_prod5/dl1
+  perturbation_intensity: 1.0
+  split_ratios: [0.70, 0.15, 0.15]
+  subsample: null
+
+method:
+  name: mmd_linear
+  lambda_reg: 1.0e-3
+
+classifier: mlp_shallow
+classifier_params:
+  hidden_layer_sizes: [64, 32]
+  activation: relu
+  solver: adam
+  alpha: 0.0001
+  batch_size: 256
+  max_iter: 200
+  early_stopping: true
+  validation_fraction: 0.1
+
+model:
+  name: logistic_regression
+
+output_dir: results/s0_mmd_linear_mlp
+
+hydra:
+  run:
+    dir: results//
