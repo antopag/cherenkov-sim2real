@@ -49,7 +49,11 @@ dependencies:
   # Configuration & experiment tracking
   - hydra-core
   - omegaconf
-  - mlflow
+  # mlflow<3 pinned: the offline file-store backend (file:./mlruns, CLAUDE.md
+  # §5) is the project's tracking design. MLflow 3.x puts the file store in
+  # "maintenance mode" and raises unless MLFLOW_ALLOW_FILE_STORE=true, and the
+  # existing S0 _mlruns were written by 2.x. Keep 2.x for format consistency.
+  - mlflow<3
 
   # Gamma-ray astronomy — pinned to validated versions
   - gammapy=1.1
