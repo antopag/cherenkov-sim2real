@@ -97,3 +97,7 @@ configs/local/
 
 # MDPI LaTeX template files (MDPI copyright; download from https://www.mdpi.com/authors/latex)
 paper_electronics/manuscript/Definitions/
+
+# Manuscript sources stay private until publication
+paper_electronics/manuscript/
+paper_electronics/*.tex
