@@ -94,3 +94,6 @@ desktop.ini
 *.local.yaml
 *.local.yml
 configs/local/
+
+# MDPI LaTeX template files (MDPI copyright; download from https://www.mdpi.com/authors/latex)
+paper_electronics/manuscript/Definitions/

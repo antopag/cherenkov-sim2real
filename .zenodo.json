@@ -1,0 +1,23 @@
+{
+  "title": "cherenkov-sim2real: code, configurations and per-seed results for \"Carrier-Domain Adaptation Interaction in Classification Under Distribution Shift\"",
+  "upload_type": "software",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Pagliaro, Antonio",
+      "affiliation": "INAF-IASF Palermo; ICSC National Centre for HPC, Big Data and Quantum Computing",
+      "orcid": "0000-0002-6841-1362"
+    }
+  ],
+  "description": "Reproducible benchmark of feature-alignment domain adaptation (CORAL, mean matching, MMD) across five carrier classifiers under controlled, physically motivated synthetic shifts of Imaging Atmospheric Cherenkov Telescope tabular features (CTA Prod5 public Monte Carlo). Includes the Hydra configurations, the synthetic perturbation framework, the runner and ablation scripts, one result manifest per (experiment, seed), the consolidated JSON tables and the scripts that regenerate every figure and table of the paper.",
+  "keywords": [
+    "domain adaptation",
+    "distribution shift",
+    "feature alignment",
+    "CORAL",
+    "tree-based classifiers",
+    "Imaging Atmospheric Cherenkov Telescopes",
+    "gamma/hadron separation"
+  ],
+  "access_right": "open"
+}

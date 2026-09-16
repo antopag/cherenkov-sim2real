@@ -1,0 +1,28 @@
+{
+ "experiment_name": "s0_mean_matching_rf",
+ "scenario": "S0",
+ "method": "logreg-mean_matching",
+ "seed": 56,
+ "dataset_source": {
+  "name": "cta_prod5_baseline",
+  "version": "public"
+ },
+ "dataset_target": {
+  "name": "cta_prod5_perturbed",
+  "intensity": 1.0
+ },
+ "hyperparameters": {
+  "max_iter": 1000,
+  "method": "mean_matching",
+  "lambda_reg": null
+ },
+ "metrics": {
+  "f1_macro": 0.8338,
+  "auc": 0.9353,
+  "q_factor": 3.6825
+ },
+ "git_commit": "unknown",
+ "timestamp_utc": "2026-05-05T12:35:35.230699+00:00",
+ "hydra_config_path": "seed: 56\nn_seeds: 5\nexperiment_name: s0_mean_matching_rf\npaths:\n  data_root: ${oc.env:CHERENKOV_DATA_ROOT,data}\n  results_root: ${oc.env:CHERENKOV_RESULTS_ROOT,results}\nmlflow:\n  tracking_uri: file:./mlruns\n  experiment_name: cherenkov-sim2real\nscenario:\n  name: S0\n  data_dir: data/raw/cta_prod5/dl1\n  perturbation_intensity: 1.0\n  split_ratios:\n  - 0.7\n  - 0.15\n  - 0.15\n  subsample: null\nmethod:\n  name: mean_matching\nclassifier: random_forest\nclassifier_params:\n  n_estimators: 100\n  criterion: entropy\nmodel:\n  name: logistic_regression\noutput_dir: results/s0_mean_matching_rf\n",
+ "notes": ""
+}

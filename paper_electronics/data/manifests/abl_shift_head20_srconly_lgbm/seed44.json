@@ -1,0 +1,53 @@
+{
+ "experiment_name": "abl_shift_head20_srconly_lgbm",
+ "scenario": "S0-ablation",
+ "method": "logreg-srconly",
+ "seed": 44,
+ "dataset_source": {
+  "name": "cta_prod5_baseline",
+  "version": "public"
+ },
+ "dataset_target": {
+  "name": "cta_prod5_perturbed",
+  "families": [
+   [
+    "nsb_injection",
+    1.0
+   ],
+   [
+    "atmospheric_attenuation",
+    1.0
+   ]
+  ],
+  "intensity": 2.0
+ },
+ "hyperparameters": {
+  "method": "srconly",
+  "lambda_reg": null
+ },
+ "ablation": {
+  "kind": "shift",
+  "config": "head20",
+  "carrier": "lgbm",
+  "families": [
+   [
+    "nsb_injection",
+    1.0
+   ],
+   [
+    "atmospheric_attenuation",
+    1.0
+   ]
+  ],
+  "intensity": 2.0
+ },
+ "metrics": {
+  "f1_macro": 0.6888,
+  "auc": 0.7997,
+  "q_factor": 1.3643
+ },
+ "git_commit": "495fb0f07f3b59746d2e3e1c89c64e12a838495b",
+ "timestamp_utc": "2026-09-16T07:32:36.557254+00:00",
+ "hydra_config_path": null,
+ "notes": "scripts/run_ablations.py (revision round 1)"
+}
