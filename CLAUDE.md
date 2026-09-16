@@ -21,9 +21,8 @@ Atmospheric Cherenkov Telescopes (IACTs).
 
 - **Source domain:** Monte Carlo simulations.
 - **Target domain:** real observations.
-- **Output:** a paper for the MDPI journal *Electronics*, Special Issue
-  *"Data-Related Challenges in Machine Learning: Theory and Application"*.
-- **Deadline:** 30 November 2026.
+- **Output:** a journal paper (target venue and deadline tracked in the
+  private planning documents).
 
 ---
 
