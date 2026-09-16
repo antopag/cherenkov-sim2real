@@ -158,8 +158,8 @@ resolved during loader implementation.
 ### For S6.6 (closing application)
 
 Use the same PDR1 Crab dark subset. The Crab Nebula is the standard
-reference source in VHE astronomy, directly comparable to the Crab
-analysis in Pagliaro et al. (submitted) on non-public.
+reference source in VHE astronomy, directly comparable to published
+Crab analyses from other IACTs.
 
 ### Fallback
 

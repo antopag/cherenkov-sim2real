@@ -23,16 +23,17 @@ Atmospheric Cherenkov Telescopes (IACTs).
 
 ---
 
-## 2. Hard constraint — NO non-public
+## 2. Hard constraint — public data only
 
-> **This project does not use non-public data, non-public Monte Carlo simulations,
-> non-public-derived pipelines, non-public-internal calibration files, or any artifact
-> that originates from the non-public collaboration.**
+> **This project uses only publicly available, openly licensed datasets,
+> simulations, and analysis tools.** No proprietary or collaboration-internal
+> data, Monte Carlo productions, calibration files, or pipelines may enter the
+> project, directly or as a transitive dependency.
 
-This is non-negotiable. If a future change introduces an non-public dependency
-(direct or transitive), it must be reverted before merging. When in doubt,
-ask. This rule exists because the journal submission must rely **only on
-publicly available** datasets.
+This is non-negotiable. If a future change introduces a non-public dependency,
+it must be reverted before merging. When in doubt, ask. This rule exists so
+that every result in the paper can be reproduced by anyone from the sources
+listed in Section 3.
 
 ---
 
@@ -307,7 +308,7 @@ and any figures specific to that run.
 - [ ] Cite the dataset version / Prod5 release in the manifest.
 
 **Don't**
-- [ ] Don't introduce non-public data, non-public MC, or non-public tooling — ever.
+- [ ] Don't introduce non-public data, MC productions, or tooling — ever.
 - [ ] Don't migrate to poetry / uv / pipenv. Conda env `cherenkov` +
       `environment.yml` is the convention.
 - [ ] Don't put runtime dependencies in `pyproject.toml`.
