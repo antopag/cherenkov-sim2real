@@ -44,7 +44,11 @@ def _collect_s0_results(results_dir: Path) -> dict[str, dict[int, dict[str, floa
     """
     latest: dict[tuple[str, int], str] = {}
     cells: dict[str, dict[int, dict[str, float]]] = {}
-    for mp in results_dir.rglob("manifest.json"):
+    # Shipped per-seed manifests (paper_electronics/data/manifests) are read
+    # too, so the extraction works from a clean checkout without results/.
+    shipped = results_dir.parent / "paper_electronics" / "data" / "manifests"
+    paths = list(results_dir.rglob("manifest.json")) + list(shipped.rglob("seed*.json"))
+    for mp in paths:
         with open(mp) as f:
             m = json.load(f)
         if m.get("scenario") != "S0":

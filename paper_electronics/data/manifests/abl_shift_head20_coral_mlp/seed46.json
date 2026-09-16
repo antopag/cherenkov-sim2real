@@ -1,0 +1,53 @@
+{
+ "experiment_name": "abl_shift_head20_coral_mlp",
+ "scenario": "S0-ablation",
+ "method": "logreg-coral",
+ "seed": 46,
+ "dataset_source": {
+  "name": "cta_prod5_baseline",
+  "version": "public"
+ },
+ "dataset_target": {
+  "name": "cta_prod5_perturbed",
+  "families": [
+   [
+    "nsb_injection",
+    1.0
+   ],
+   [
+    "atmospheric_attenuation",
+    1.0
+   ]
+  ],
+  "intensity": 2.0
+ },
+ "hyperparameters": {
+  "method": "coral",
+  "lambda_reg": 0.001
+ },
+ "ablation": {
+  "kind": "shift",
+  "config": "head20",
+  "carrier": "mlp",
+  "families": [
+   [
+    "nsb_injection",
+    1.0
+   ],
+   [
+    "atmospheric_attenuation",
+    1.0
+   ]
+  ],
+  "intensity": 2.0
+ },
+ "metrics": {
+  "f1_macro": 0.6541,
+  "auc": 0.7731,
+  "q_factor": 1.2616
+ },
+ "git_commit": "495fb0f07f3b59746d2e3e1c89c64e12a838495b",
+ "timestamp_utc": "2026-09-16T07:32:35.736839+00:00",
+ "hydra_config_path": null,
+ "notes": "scripts/run_ablations.py (revision round 1)"
+}

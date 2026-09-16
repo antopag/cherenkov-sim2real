@@ -1,0 +1,28 @@
+{
+ "experiment_name": "s0_mean_matching_lgbm",
+ "scenario": "S0",
+ "method": "logreg-mean_matching",
+ "seed": 42,
+ "dataset_source": {
+  "name": "cta_prod5_baseline",
+  "version": "public"
+ },
+ "dataset_target": {
+  "name": "cta_prod5_perturbed",
+  "intensity": 1.0
+ },
+ "hyperparameters": {
+  "max_iter": 1000,
+  "method": "mean_matching",
+  "lambda_reg": null
+ },
+ "metrics": {
+  "f1_macro": 0.7016,
+  "auc": 0.8369,
+  "q_factor": 1.6611
+ },
+ "git_commit": "unknown",
+ "timestamp_utc": "2026-05-05T06:50:06.025193+00:00",
+ "hydra_config_path": "seed: 42\nn_seeds: 5\nexperiment_name: s0_mean_matching_lgbm\npaths:\n  data_root: ${oc.env:CHERENKOV_DATA_ROOT,data}\n  results_root: ${oc.env:CHERENKOV_RESULTS_ROOT,results}\nmlflow:\n  tracking_uri: file:./mlruns\n  experiment_name: cherenkov-sim2real\nscenario:\n  name: S0\n  data_dir: data/raw/cta_prod5/dl1\n  perturbation_intensity: 1.0\n  split_ratios:\n  - 0.7\n  - 0.15\n  - 0.15\n  subsample: null\nmethod:\n  name: mean_matching\nclassifier: lightgbm\nclassifier_params:\n  n_estimators: 300\n  max_depth: 6\n  learning_rate: 0.05\nmodel:\n  name: logistic_regression\noutput_dir: results/s0_mean_matching_lgbm\n",
+ "notes": ""
+}

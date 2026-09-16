@@ -38,8 +38,9 @@ def _paired(diff: np.ndarray) -> dict[str, Any]:
 def _collect(results_dir: Path) -> dict[str, dict[int, dict[str, Any]]]:
     """{experiment_name: {seed: manifest}} keeping the latest run per seed."""
     cells: dict[str, dict[int, dict[str, Any]]] = {}
-    for exp_dir in sorted(results_dir.glob("abl_*")):
-        for mp in exp_dir.glob("*/manifest.json"):
+    shipped = results_dir.parent / "paper_electronics" / "data" / "manifests"
+    for exp_dir in sorted(results_dir.glob("abl_*")) + sorted(shipped.glob("abl_*")):
+        for mp in list(exp_dir.glob("*/manifest.json")) + list(exp_dir.glob("seed*.json")):
             m = json.loads(mp.read_text(encoding="utf-8"))
             seed = int(m["seed"])
             prev = cells.setdefault(exp_dir.name, {}).get(seed)

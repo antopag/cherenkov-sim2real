@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software or the benchmark results, please cite the paper below."
+title: "cherenkov-sim2real: carrier-domain adaptation interaction benchmark"
+version: "1.0.0"
+date-released: "2026-09-16"
+license: MIT
+repository-code: "https://github.com/antoniopagliaro/cherenkov-sim2real"
+authors:
+  - family-names: Pagliaro
+    given-names: Antonio
+    orcid: "https://orcid.org/0000-0002-6841-1362"
+    affiliation: "INAF-IASF Palermo; ICSC National Centre for HPC, Big Data and Quantum Computing"
+keywords:
+  - domain adaptation
+  - distribution shift
+  - feature alignment
+  - CORAL
+  - tree-based classifiers
+  - Imaging Atmospheric Cherenkov Telescopes
+  - gamma/hadron separation
+preferred-citation:
+  type: article
+  title: "Carrier-Domain Adaptation Interaction in Classification Under Distribution Shift: When Feature Alignment Helps, Hurts, or Washes Out"
+  authors:
+    - family-names: Pagliaro
+      given-names: Antonio
+      orcid: "https://orcid.org/0000-0002-6841-1362"
+  journal: "Electronics"
+  year: 2026
+  notes: "Under review."

@@ -22,3 +22,31 @@ Application"* (deadline 30 November 2026).
 
 > **Hard constraint:** this project does **not** use non-public data, non-public
 > simulations, or non-public-derived pipelines. See CLAUDE.md.
+
+## Reproducing the paper
+
+All numbers, tables and figures of the paper regenerate from the
+per-seed result manifests shipped in `paper_electronics/data/manifests/`
+(one JSON per experiment and seed; 991 files) without re-running any
+training:
+
+```bash
+conda env create -f environment.yml && conda activate cherenkov
+pip install -e .
+python paper_electronics/extract_paper_data.py      # main S0 matrix -> data/extracted_results.json
+python paper_electronics/extract_ablations.py       # depth + shift ablations -> data/ablations.json
+cd paper_electronics/figures && for f in generate_fig*.py; do python "$f"; done
+```
+
+To re-run the experiments themselves, download the CTA Prod5 public
+files with `scripts/download_cta_prod5.py`, then use
+`scripts/run_experiment.py experiment=<name>` for the main matrix
+(configs in `configs/experiment/`) and `scripts/run_ablations.py` for the
+two revision ablations. The MDPI LaTeX class is not redistributed here;
+fetch it from <https://www.mdpi.com/authors/latex> into
+`paper_electronics/manuscript/Definitions/` before compiling.
+
+## Citation
+
+See `CITATION.cff`. The archived release of this repository is deposited
+on Zenodo (DOI added at publication).

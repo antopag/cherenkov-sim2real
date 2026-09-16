@@ -1,0 +1,28 @@
+{
+ "experiment_name": "s0_mmd_rbf_et",
+ "scenario": "S0",
+ "method": "logreg-mmd_rbf",
+ "seed": 49,
+ "dataset_source": {
+  "name": "cta_prod5_baseline",
+  "version": "public"
+ },
+ "dataset_target": {
+  "name": "cta_prod5_perturbed",
+  "intensity": 1.0
+ },
+ "hyperparameters": {
+  "max_iter": 1000,
+  "method": "mmd_rbf",
+  "lambda_reg": 0.001
+ },
+ "metrics": {
+  "f1_macro": 0.8797,
+  "auc": 0.9655,
+  "q_factor": 5.0575
+ },
+ "git_commit": "unknown",
+ "timestamp_utc": "2026-05-07T07:17:08.049882+00:00",
+ "hydra_config_path": "seed: 49\nn_seeds: 5\nexperiment_name: s0_mmd_rbf_et\npaths:\n  data_root: ${oc.env:CHERENKOV_DATA_ROOT,data}\n  results_root: ${oc.env:CHERENKOV_RESULTS_ROOT,results}\nmlflow:\n  tracking_uri: file:./mlruns\n  experiment_name: cherenkov-sim2real\nscenario:\n  name: S0\n  data_dir: data/raw/cta_prod5/dl1\n  perturbation_intensity: 1.0\n  split_ratios:\n  - 0.7\n  - 0.15\n  - 0.15\n  subsample: null\nmethod:\n  name: mmd_rbf\n  lambda_reg: 0.001\n  max_iter: 100\nclassifier: extratrees\nclassifier_params:\n  n_estimators: 100\n  criterion: entropy\nmodel:\n  name: logistic_regression\noutput_dir: results/s0_mmd_rbf_et\n",
+ "notes": ""
+}

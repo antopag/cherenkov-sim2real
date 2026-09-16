@@ -1,0 +1,28 @@
+{
+ "experiment_name": "abl_smoke",
+ "scenario": "S0",
+ "method": "logreg-coral",
+ "seed": 99,
+ "dataset_source": {
+  "name": "cta_prod5_baseline",
+  "version": "public"
+ },
+ "dataset_target": {
+  "name": "cta_prod5_perturbed",
+  "intensity": 1.0
+ },
+ "hyperparameters": {
+  "max_iter": 1000,
+  "method": "coral",
+  "lambda_reg": 0.001
+ },
+ "metrics": {
+  "f1_macro": 0.496,
+  "auc": 0.7304,
+  "q_factor": 1.0129
+ },
+ "git_commit": "495fb0f07f3b59746d2e3e1c89c64e12a838495b",
+ "timestamp_utc": "2026-09-16T07:03:55.369745+00:00",
+ "hydra_config_path": "seed: 99\nn_seeds: 5\nexperiment_name: abl_smoke\npaths:\n  data_root: ${oc.env:CHERENKOV_DATA_ROOT,data}\n  results_root: ${oc.env:CHERENKOV_RESULTS_ROOT,results}\nmlflow:\n  tracking_uri: file:./mlruns\n  experiment_name: cherenkov-sim2real\nscenario:\n  name: S0\n  data_dir: data/raw/cta_prod5/dl1\n  perturbation_intensity: 1.0\n  split_ratios:\n  - 0.7\n  - 0.15\n  - 0.15\n  subsample: null\nmethod:\n  name: coral\n  lambda_reg: 0.001\nclassifier: random_forest\nclassifier_params:\n  n_estimators: 100\n  criterion: entropy\n  max_depth: 4\nmodel:\n  name: logistic_regression\noutput_dir: results/_abl_smoke\n",
+ "notes": ""
+}

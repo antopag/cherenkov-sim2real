@@ -1,0 +1,45 @@
+{
+ "experiment_name": "abl_shift_nsb_srconly_lr",
+ "scenario": "S0-ablation",
+ "method": "logreg-srconly",
+ "seed": 46,
+ "dataset_source": {
+  "name": "cta_prod5_baseline",
+  "version": "public"
+ },
+ "dataset_target": {
+  "name": "cta_prod5_perturbed",
+  "families": [
+   [
+    "nsb_injection",
+    1.0
+   ]
+  ],
+  "intensity": 1.0
+ },
+ "hyperparameters": {
+  "method": "srconly",
+  "lambda_reg": null
+ },
+ "ablation": {
+  "kind": "shift",
+  "config": "nsb",
+  "carrier": "lr",
+  "families": [
+   [
+    "nsb_injection",
+    1.0
+   ]
+  ],
+  "intensity": 1.0
+ },
+ "metrics": {
+  "f1_macro": 0.5406,
+  "auc": 0.6883,
+  "q_factor": 0.7377
+ },
+ "git_commit": "495fb0f07f3b59746d2e3e1c89c64e12a838495b",
+ "timestamp_utc": "2026-09-16T07:26:56.066950+00:00",
+ "hydra_config_path": null,
+ "notes": "scripts/run_ablations.py (revision round 1)"
+}
