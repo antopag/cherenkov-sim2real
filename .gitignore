@@ -101,3 +101,7 @@ paper_electronics/manuscript/Definitions/
 # Manuscript sources stay private until publication
 paper_electronics/manuscript/
 paper_electronics/*.tex
+
+# Internal planning documents (private working copy only)
+PLAN.md
+COMPLETION_PLAN.md

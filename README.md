@@ -15,8 +15,6 @@ This work is being prepared for submission to the MDPI journal *Electronics*,
 Special Issue *"Data-Related Challenges in Machine Learning: Theory and
 Application"* (deadline 30 November 2026).
 
-- See **[PLAN.md](PLAN.md)** for the research plan, datasets, methods,
-  experimental matrix, and timeline.
 - See **[CLAUDE.md](CLAUDE.md)** for contributor and AI-assistant guidelines,
   reproducibility rules, and the project's conventions.
 

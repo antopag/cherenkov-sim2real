@@ -7,6 +7,10 @@ The single source of truth for the **research plan** is
 [PLAN.md](PLAN.md). Whenever the plan, the experimental matrix, the dataset
 list, or the timeline changes, update PLAN.md in the same change.
 
+> **Note for the public repository.** `PLAN.md` and `COMPLETION_PLAN.md`
+> are internal working documents and are not distributed with the public
+> code. References to them in this file apply to the private working copy.
+
 ---
 
 ## 1. Project goal
