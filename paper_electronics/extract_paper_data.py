@@ -2,6 +2,13 @@
 
 Reads S0 manifest files and shift diagnostics, aggregates into a single
 JSON file at paper_electronics/data/extracted_results.json.
+
+Deltas versus source-only are computed as *paired* differences per seed:
+every cell of the S0 matrix was run with the same seed set (42..56), and
+the seed controls the train/test split and the classifier initialisation,
+so the difference "method - srconly" is well defined seed by seed. We
+report the paired mean, the paired standard error, a 95% t-interval
+(df = n - 1), the paired t-test p-value and Cohen's d_z.
 """
 
 from __future__ import annotations
@@ -11,91 +18,116 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+from scipy import stats
+
+CARRIERS = ["lr", "lgbm", "rf", "et", "mlp"]
+METHODS = ["coral", "mean_matching", "mmd_linear", "mmd_rbf"]
+METRICS = {"auc": "auc", "q": "q_factor", "f1": "f1_macro"}
 
 
-def _collect_s0_results(results_dir: Path) -> dict[str, Any]:
-    """Collect all S0 manifests, grouped by (method, carrier)."""
-    cells: dict[str, list[dict[str, float]]] = {}
+def _carrier_from_experiment(exp: str) -> str:
+    for tag in ("lgbm", "rf", "et", "mlp"):
+        if exp.endswith(f"_{tag}"):
+            return tag
+    return "lr"
 
+
+def _collect_s0_results(results_dir: Path) -> dict[str, dict[int, dict[str, float]]]:
+    """Collect S0 manifests as {cell_key: {seed: metrics}}.
+
+    Manifests are read from the Hydra run directories and from the MLflow
+    artifact store (``results/_mlruns``; the MMD cells only exist there).
+    Each (cell, seed) pair is counted **once**: when the same seed was run
+    more than once, the run with the latest ``timestamp_utc`` wins. This
+    matters for the logistic-regression cells, whose first batch on
+    2026-05-05 06:05 UTC used a superseded configuration.
+    """
+    latest: dict[tuple[str, int], str] = {}
+    cells: dict[str, dict[int, dict[str, float]]] = {}
     for mp in results_dir.rglob("manifest.json"):
         with open(mp) as f:
             m = json.load(f)
         if m.get("scenario") != "S0":
             continue
         method = m["method"].replace("logreg-", "")
-        exp = m["experiment_name"]
-        if "_lgbm" in exp:
-            clf = "lgbm"
-        elif "_rf" in exp:
-            clf = "rf"
-        elif "_et" in exp:
-            clf = "et"
-        elif "_mlp" in exp:
-            clf = "mlp"
-        else:
-            clf = "lr"
-
+        clf = _carrier_from_experiment(m["experiment_name"])
         key = f"{method}__{clf}"
-        cells.setdefault(key, []).append(m["metrics"])
+        seed = int(m["seed"])
+        ts = str(m.get("timestamp_utc", ""))
+        if ts < latest.get((key, seed), ""):
+            continue
+        latest[(key, seed)] = ts
+        cells.setdefault(key, {})[seed] = m["metrics"]
+    return cells
 
-    # Aggregate
+
+def _summarise(cells: dict[str, dict[int, dict[str, float]]]) -> dict[str, Any]:
     summary: dict[str, Any] = {}
-    for key, metrics_list in sorted(cells.items()):
+    for key, by_seed in sorted(cells.items()):
         method, clf = key.split("__")
-        f1s = [m["f1_macro"] for m in metrics_list]
-        aucs = [m["auc"] for m in metrics_list]
-        qs = [m["q_factor"] for m in metrics_list]
-        summary[key] = {
+        entry: dict[str, Any] = {
             "method": method,
             "carrier": clf,
-            "n_seeds": len(metrics_list),
-            "f1_mean": round(float(np.mean(f1s)), 4),
-            "f1_std": round(float(np.std(f1s)), 4),
-            "auc_mean": round(float(np.mean(aucs)), 4),
-            "auc_std": round(float(np.std(aucs)), 4),
-            "q_mean": round(float(np.mean(qs)), 4),
-            "q_std": round(float(np.std(qs)), 4),
+            "n_seeds": len(by_seed),
+            "seeds": sorted(by_seed),
         }
-
+        for short, name in METRICS.items():
+            vals = np.array([by_seed[s][name] for s in sorted(by_seed)])
+            entry[f"{short}_mean"] = round(float(vals.mean()), 4)
+            entry[f"{short}_std"] = round(float(vals.std(ddof=1)), 4)
+        summary[key] = entry
     return summary
 
 
-def _compute_deltas(
-    summary: dict[str, Any],
-) -> dict[str, Any]:
-    """Compute deltas vs srconly for each carrier x DA method."""
+def _paired_stats(diff: np.ndarray) -> dict[str, Any]:
+    n = len(diff)
+    mean = float(diff.mean())
+    sd = float(diff.std(ddof=1))
+    se = sd / np.sqrt(n)
+    tcrit = float(stats.t.ppf(0.975, df=n - 1))
+    if se > 0:
+        p_val = stats.ttest_1samp(diff, 0.0).pvalue
+        p_val = float(p_val)
+        dz = mean / sd
+    else:  # identical values on every seed
+        p_val = 0.0 if mean != 0 else 1.0
+        dz = float("inf") if mean != 0 else 0.0
+    return {
+        "mean": round(mean, 4),
+        "se": round(float(se), 5),
+        "ci95": [round(mean - tcrit * se, 4), round(mean + tcrit * se, 4)],
+        "p_paired_t": p_val,
+        "cohen_dz": round(float(dz), 2) if np.isfinite(dz) else None,
+        "n_pairs": n,
+    }
+
+
+def _compute_deltas(cells: dict[str, dict[int, dict[str, float]]]) -> dict[str, Any]:
+    """Paired deltas (method - srconly) per seed, for each carrier x method."""
     deltas: dict[str, Any] = {}
-    carriers = ["lr", "lgbm", "rf", "et", "mlp"]
-    methods = ["coral", "mean_matching", "mmd_linear", "mmd_rbf"]
-
-    for clf in carriers:
-        base_key = f"srconly__{clf}"
-        if base_key not in summary:
+    for clf in CARRIERS:
+        base = cells.get(f"srconly__{clf}")
+        if not base:
             continue
-        base = summary[base_key]
-        for method in methods:
-            key = f"{method}__{clf}"
-            if key not in summary:
+        for method in METHODS:
+            cell = cells.get(f"{method}__{clf}")
+            if not cell:
                 continue
-            cell = summary[key]
-            n = min(cell["n_seeds"], base["n_seeds"])
-            dauc = cell["auc_mean"] - base["auc_mean"]
-            dq = cell["q_mean"] - base["q_mean"]
-            # Approximate sigma of the difference
-            se_auc = np.sqrt(cell["auc_std"] ** 2 / n + base["auc_std"] ** 2 / n)
-            se_q = np.sqrt(cell["q_std"] ** 2 / n + base["q_std"] ** 2 / n)
-            sig_auc = float(dauc / se_auc) if se_auc > 0 else 0.0
-            sig_q = float(dq / se_q) if se_q > 0 else 0.0
-
-            deltas[f"{method}__{clf}"] = {
-                "method": method,
-                "carrier": clf,
-                "delta_auc": round(dauc, 4),
-                "delta_auc_sigma": round(sig_auc, 1),
-                "delta_q": round(dq, 4),
-                "delta_q_sigma": round(sig_q, 1),
-            }
-
+            seeds = sorted(set(base) & set(cell))
+            if not seeds:
+                continue
+            out: dict[str, Any] = {"method": method, "carrier": clf, "seeds": seeds}
+            for short, name in METRICS.items():
+                diff = np.array([cell[s][name] - base[s][name] for s in seeds])
+                st = _paired_stats(diff)
+                out[f"delta_{short}"] = st["mean"]
+                out[f"delta_{short}_se"] = st["se"]
+                out[f"delta_{short}_ci95"] = st["ci95"]
+                out[f"delta_{short}_p"] = st["p_paired_t"]
+                out[f"delta_{short}_dz"] = st["cohen_dz"]
+                out[f"delta_{short}_per_seed"] = [round(float(d), 4) for d in diff]
+            out["n_pairs"] = len(seeds)
+            deltas[f"{method}__{clf}"] = out
     return deltas
 
 
@@ -104,8 +136,9 @@ def main() -> None:
     results_dir = project_root / "results"
     output_path = project_root / "paper_electronics" / "data" / "extracted_results.json"
 
-    summary = _collect_s0_results(results_dir)
-    deltas = _compute_deltas(summary)
+    cells = _collect_s0_results(results_dir)
+    summary = _summarise(cells)
+    deltas = _compute_deltas(cells)
 
     # Shift diagnostics (from session 8, hardcoded reference values)
     shift_diagnostics = {
@@ -119,9 +152,14 @@ def main() -> None:
         "s0_deltas": deltas,
         "s0_shift_diagnostics": shift_diagnostics,
     }
-
     output_path.write_text(json.dumps(extracted, indent=2), encoding="utf-8")
     print(f"Extracted {len(summary)} cells, {len(deltas)} deltas -> {output_path}")
+    for key in ("coral__lr", "coral__mlp", "coral__lgbm", "coral__et", "coral__rf"):
+        d = deltas[key]
+        print(
+            f"{key:14s} dAUC={d['delta_auc']:+.4f} CI95={d['delta_auc_ci95']} "
+            f"p={d['delta_auc_p']:.1e} dz={d['delta_auc_dz']}  n={d['n_pairs']}"
+        )
 
 
 if __name__ == "__main__":

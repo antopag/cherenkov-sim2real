@@ -46,7 +46,7 @@ def test_figures_exist() -> None:
     expected = [
         "fig1_schematic", "fig2_carrier_gradient",
         "fig3_mm_vs_coral", "fig4_shift_diagnostics",
-        "fig5_threshold_schematic",
+        "fig5_threshold_schematic", "fig6_depth_sweep", "fig7_shift_types",
     ]
     for name in expected:
         for ext in [".pdf", ".png"]:
@@ -60,3 +60,21 @@ def test_pdf_sizes_reasonable() -> None:
     for pdf in _OUTPUT_DIR.glob("*.pdf"):
         size_kb = pdf.stat().st_size / 1024
         assert size_kb < 500, f"{pdf.name} is {size_kb:.0f} KB (>500 KB)"
+
+
+def test_ablations_json_consistent() -> None:
+    """Ablation deltas are paired and the depth sweep covers all planned depths."""
+    import json
+
+    data = json.loads((_OUTPUT_DIR.parent.parent / "data" / "ablations.json").read_text())
+    depth = data["depth"]
+    assert sorted(depth) == ["02", "04", "06", "08", "12", "16", "none"]
+    for cell in depth.values():
+        assert cell["coral"]["n_seeds"] == 15
+        assert len(cell["coral"]["delta_auc_per_seed"]) == 15
+        lo, hi = cell["coral"]["delta_auc_ci95"]
+        assert lo <= cell["coral"]["delta_auc"] <= hi
+    shift = data["shift"]
+    assert sorted(shift) == ["head05", "head20", "loc", "nsb"]
+    for carriers in shift.values():
+        assert sorted(carriers) == ["et", "lgbm", "lr", "mlp", "rf"]

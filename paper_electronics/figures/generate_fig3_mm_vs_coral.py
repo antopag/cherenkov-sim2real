@@ -41,12 +41,9 @@ def main() -> None:
             ("coral", coral_vals, coral_errs),
         ]:
             d = deltas[f"{method}__{clf}"]
-            cell = summary[f"{method}__{clf}"]
-            base = summary[f"srconly__{clf}"]
-            n = min(cell["n_seeds"], base["n_seeds"])
-            se = np.sqrt(cell["auc_std"] ** 2 / n + base["auc_std"] ** 2 / n)
+            lo, hi = d["delta_auc_ci95"]
             vals.append(d["delta_auc"])
-            errs.append(se)
+            errs.append((hi - lo) / 2)  # paired 95% CI half-width
 
     ax.bar(
         x_pos - bar_width / 2, mm_vals, bar_width,
