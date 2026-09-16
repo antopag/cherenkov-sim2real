@@ -20,7 +20,7 @@ keywords:
   - gamma/hadron separation
 preferred-citation:
   type: article
-  title: "Carrier-Domain Adaptation Interaction in Classification Under Distribution Shift: When Feature Alignment Helps, Hurts, or Washes Out"
+  title: "When Feature Alignment Helps, Hurts, or Washes Out: Carrier-Dependent Domain Adaptation for Cherenkov Telescope Event Classification"
   authors:
     - family-names: Pagliaro
       given-names: Antonio
