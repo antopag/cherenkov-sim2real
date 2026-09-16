@@ -18,10 +18,7 @@ Application"* (deadline 30 November 2026).
 - See **[PLAN.md](PLAN.md)** for the research plan, datasets, methods,
   experimental matrix, and timeline.
 - See **[CLAUDE.md](CLAUDE.md)** for contributor and AI-assistant guidelines,
-  reproducibility rules, and the project's hard constraints.
-
-> **Hard constraint:** this project does **not** use non-public data, non-public
-> simulations, or non-public-derived pipelines. See CLAUDE.md.
+  reproducibility rules, and the project's conventions.
 
 ## Reproducing the paper
 
@@ -42,9 +39,8 @@ To re-run the experiments themselves, download the CTA Prod5 public
 files with `scripts/download_cta_prod5.py`, then use
 `scripts/run_experiment.py experiment=<name>` for the main matrix
 (configs in `configs/experiment/`) and `scripts/run_ablations.py` for the
-two revision ablations. The MDPI LaTeX class is not redistributed here;
-fetch it from <https://www.mdpi.com/authors/latex> into
-`paper_electronics/manuscript/Definitions/` before compiling.
+two revision ablations. The manuscript sources are not part of this
+repository.
 
 ## Citation
 
