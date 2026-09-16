@@ -4,7 +4,7 @@ title: "cherenkov-sim2real: carrier-domain adaptation interaction benchmark"
 version: "1.0.0"
 date-released: "2026-09-16"
 license: MIT
-repository-code: "https://github.com/antoniopagliaro/cherenkov-sim2real"
+repository-code: "https://github.com/antopag/cherenkov-sim2real"
 authors:
   - family-names: Pagliaro
     given-names: Antonio
