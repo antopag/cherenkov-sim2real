@@ -48,13 +48,10 @@ def main() -> None:
             key = f"{method}__{clf}"
             d = deltas[key]
             y_vals.append(d["delta_auc"])
-            # Compute error bar from the cell stds
-            cell = summary[f"{method}__{clf}"]
-            base = summary[f"srconly__{clf}"]
-            n = min(cell["n_seeds"], base["n_seeds"])
-            se = np.sqrt(cell["auc_std"] ** 2 / n + base["auc_std"] ** 2 / n)
-            y_errs.append(se)
-            annotations.append(f"{d['delta_auc_sigma']:.0f}\u03c3")
+            # Error bar: half-width of the paired 95% t-interval
+            lo, hi = d["delta_auc_ci95"]
+            y_errs.append((hi - lo) / 2)
+            annotations.append(f"{d['delta_auc']:+.3f}")
 
         ax.errorbar(
             x_pos, y_vals, yerr=y_errs,
@@ -62,13 +59,13 @@ def main() -> None:
             capsize=4, linewidth=1.5, label=label,
         )
 
-        # Annotate sigma values (only for CORAL to avoid clutter)
+        # Annotate CORAL deltas (only for CORAL to avoid clutter)
         if method == "coral":
             for xp, yp, ann in zip(x_pos, y_vals, annotations, strict=True):
                 ax.annotate(
                     ann, (xp, yp),
-                    textcoords="offset points", xytext=(0, 14),
-                    ha="center", fontsize=8, color=color,
+                    textcoords="offset points", xytext=(10, 8),
+                    ha="left", fontsize=8, color=color,
                 )
 
     # Reference line
