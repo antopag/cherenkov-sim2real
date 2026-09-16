@@ -11,9 +11,9 @@ across both **tabular Hillas parameters** and **Cherenkov shower images**,
 using only **publicly available** datasets (UCI MAGIC, MAGIC public
 releases, CTA Prod5, optionally H.E.S.S. DL3 / VERITAS).
 
-This work is being prepared for submission to the MDPI journal *Electronics*,
-Special Issue *"Data-Related Challenges in Machine Learning: Theory and
-Application"* (deadline 30 November 2026).
+This work accompanies the paper *"Carrier-Domain Adaptation Interaction in
+Classification Under Distribution Shift: When Feature Alignment Helps,
+Hurts, or Washes Out"* (under review).
 
 - See **[CLAUDE.md](CLAUDE.md)** for contributor and AI-assistant guidelines,
   reproducibility rules, and the project's conventions.
