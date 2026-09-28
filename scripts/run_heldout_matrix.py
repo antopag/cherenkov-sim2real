@@ -40,7 +40,10 @@ from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from run_ablations import (  # noqa: E402
+from cherenkov_sim2real.adaptation.coral import CORAL
+from cherenkov_sim2real.adaptation.mean_matching import MeanMatching
+from cherenkov_sim2real.adaptation.mmd_alignment import MMDAlignment
+from run_ablations import (
     CARRIER_TAG,
     CARRIERS,
     DEPTHS,
@@ -55,10 +58,7 @@ from run_ablations import (  # noqa: E402
     make_classifier,
     preprocess_features,
 )
-from run_revision2 import MIN_HADRONS, THRESHOLDS, q_at  # noqa: E402
-from cherenkov_sim2real.adaptation.coral import CORAL  # noqa: E402
-from cherenkov_sim2real.adaptation.mean_matching import MeanMatching  # noqa: E402
-from cherenkov_sim2real.adaptation.mmd_alignment import MMDAlignment  # noqa: E402
+from run_revision2 import THRESHOLDS, q_at
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logging.getLogger("cherenkov_sim2real").setLevel(logging.WARNING)
@@ -109,7 +109,7 @@ def paired(a: np.ndarray, b: np.ndarray) -> dict[str, Any]:
 def summ(v: list[float]) -> dict[str, float | None]:
     a = np.array([x for x in v if x is not None], float)
     return {"mean": round(float(a.mean()), 4) if len(a) else None,
-            "std": round(float(a.std(ddof=1)), 4) if len(a) > 1 else None, "n": int(len(a))}
+            "std": round(float(a.std(ddof=1)), 4) if len(a) > 1 else None, "n": len(a)}
 
 
 def cell(clf, seed, d, m, max_depth=None, lgbm_unbounded=False):
