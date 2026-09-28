@@ -149,8 +149,8 @@ def main() -> None:
         co = out["matrix"][c]["coral"]["delta_auc"]
         rc = out["matrix"][c]["coral"]["recovery"]
         print(f"{c:8s} {d['auc_source_heldout']:7.4f} {d['auc_target_heldout']:7.4f} "
-              f"{d['mean']:+8.4f} {mm['mean']:+8.4f} {str(mm['ci95']):>0s} "
-              f"{co['mean']:+8.4f} {str(co['ci95']):>0s} "
+              f"{d['mean']:+8.4f} {mm['mean']:+8.4f} {mm['ci95']!s:>0s} "
+              f"{co['mean']:+8.4f} {co['ci95']!s:>0s} "
               f"{rc['mean']:+6.2f} {rc['ci95']}")
 
 

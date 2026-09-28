@@ -47,7 +47,9 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from run_ablations import (  # noqa: E402
+from cherenkov_sim2real.adaptation.coral import CORAL
+from cherenkov_sim2real.adaptation.mean_matching import MeanMatching
+from run_ablations import (
     CARRIER_TAG,
     CARRIERS,
     HEADLINE_COMPOSITE,
@@ -59,8 +61,6 @@ from run_ablations import (  # noqa: E402
     make_classifier,
     preprocess_features,
 )
-from cherenkov_sim2real.adaptation.coral import CORAL  # noqa: E402
-from cherenkov_sim2real.adaptation.mean_matching import MeanMatching  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("revision2")
