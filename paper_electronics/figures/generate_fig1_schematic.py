@@ -27,8 +27,8 @@ def main() -> None:
     cell_text = {
         (0, 1): "DA NEUTRAL\n/ HURTS",
         (1, 1): "DA HELPS",
-        (0, 0): "DA HELPS\n(predicted)",
-        (1, 0): "DA HELPS\nSTRONGLY\n(predicted)",
+        (0, 0): "DA HELPS\n(prediction,\nnot tested)",
+        (1, 0): "DA HELPS\nSTRONGLY\n(prediction,\nnot tested)",
     }
 
     cell_carriers = {
@@ -39,10 +39,10 @@ def main() -> None:
     }
 
     cell_evidence = {
-        (0, 1): "S0 empirical",
-        (1, 1): "S0 empirical",
-        (0, 0): "S2/S3 pending",
-        (1, 0): "S2/S3 pending",
+        (0, 1): "tested (this work)",
+        (1, 1): "tested (this work)",
+        (0, 0): "untested",
+        (1, 0): "untested",
     }
 
     for (col, row), color in cell_colors.items():
