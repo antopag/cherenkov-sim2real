@@ -28,7 +28,7 @@ CARRIERS: list[tuple[str, str, int]] = [
 
 
 def main() -> None:
-    data_path = Path(__file__).parent.parent / "data" / "extracted_results.json"
+    data_path = Path(__file__).parent.parent / "data" / "paper_data.json"
     with open(data_path) as f:
         data = json.load(f)
 
