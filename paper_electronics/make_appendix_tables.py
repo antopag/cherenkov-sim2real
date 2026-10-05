@@ -34,11 +34,11 @@ def main() -> None:
          "location-dominated rather than purely translational. Second, the NSB family inflates the "
          "spread of the two concentration features while barely moving any mean.", "",
          "\\begin{table}[H]", "\\centering", "\\small",
-         "\\caption{Change in standardised mean and standard deviation, source to target, per "
+         "\\caption{\\rev{Change in standardised mean and standard deviation, source to target, per "
          "feature and per shift family. Norm of the mean-shift vector: "
          + ", ".join(f"{lab.split(' (')[0].lower()} ${fs[k]['mean_shift_norm']:.4f}$"
-                     for k, lab in SHIFTS) + ".}\\label{tab:featurestats}",
-         "\\begin{tabular}{l" + "cc" * len(SHIFTS) + "}", "\\toprule",
+                     for k, lab in SHIFTS) + ".}}\\label{tab:featurestats}",
+         "{\\revon", "\\begin{tabular}{l" + "cc" * len(SHIFTS) + "}", "\\toprule",
          " & " + " & ".join("\\multicolumn{2}{c}{" + lab + "}" for _, lab in SHIFTS) + " \\\\",
          "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}",
          "Feature & $\\Delta\\mu$ & $\\Delta\\sigma$ & $\\Delta\\mu$ & $\\Delta\\sigma$ "
@@ -48,7 +48,7 @@ def main() -> None:
         for k, _ in SHIFTS:
             row += [f"${fs[k]['d_mean'][i]:+.4f}$", f"${fs[k]['d_std'][i]:+.4f}$"]
         L.append(" & ".join(row) + " \\\\")
-    L += ["\\bottomrule", "\\end{tabular}", "\\end{table}}"]
+    L += ["\\bottomrule", "\\end{tabular}}", "\\end{table}}"]
 
     out = HERE / "manuscript" / "sections" / "98_appendix_featurestats.tex"
     out.write_text("\n".join(L) + "\n", encoding="utf-8")

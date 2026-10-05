@@ -53,6 +53,7 @@ def main() -> None:
         "ranking metric and the two fixed-threshold metrics disagree on the linear carrier, where "
         "alignment changes the ranking only slightly but moves the score offset; "
         "Section~\\ref{sec:operating_points} resolves the disagreement.}}\\label{tab:full_results}")
+    add("{\\revon")
     add("\\begin{tabular}{lccccc}")
     add("\\toprule")
     add(" & " + " & ".join(lab for _, lab in ORDER) + " \\\\")
@@ -95,7 +96,7 @@ def main() -> None:
         add(f"{lab:14s} & " + cells(lambda c, m=m: val(c, m, "q05")) + " \\\\")
 
     add("\\bottomrule")
-    add("\\end{tabular}")
+    add("\\end{tabular}}")
     add("\\end{adjustwidth}")
     add("\\end{table}")
 
@@ -125,7 +126,8 @@ def main() -> None:
         "uncertain.}}\\label{tab:recovery_ci}")
     put("\\begin{tabular}{lccc}")
     put("\\toprule")
-    put("Carrier & Mean matching & CORAL & MMD-rbf \\\\")
+    put(R + "Carrier} & " + R + "Mean matching} & " + R + "CORAL} & "
+        + R + "MMD-rbf} \\\\")
     put("\\midrule")
     for c, lab in ORDER:
         put(R + lab + "} & "
