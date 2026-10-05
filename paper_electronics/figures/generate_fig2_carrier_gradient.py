@@ -37,6 +37,7 @@ def main() -> None:
 
     fig, ax = plt.subplots(figsize=(DOUBLE_COL_WIDTH, DOUBLE_COL_WIDTH * 0.45))
 
+    series: list[tuple[list[float], list[float]]] = []
     for method, color, marker, label in [
         ("coral", COLORS["blue"], "o", "CORAL"),
         ("mean_matching", COLORS["orange"], "s", "Mean matching"),
@@ -44,6 +45,7 @@ def main() -> None:
         y_vals = []
         y_errs = []
         annotations = []
+        series.append((y_vals, y_errs))
         for clf in ordered_carriers:
             key = f"{method}__{clf}"
             d = deltas[key]
@@ -71,11 +73,19 @@ def main() -> None:
     # Reference line
     ax.axhline(0, color=COLORS["neutral"], linestyle="--", linewidth=0.8)
 
+    # Axis limits follow the data rather than a fixed range
+    lo = min(v - e for ys, es in series for v, e in zip(ys, es, strict=True))
+    hi = max(v + e for ys, es in series for v, e in zip(ys, es, strict=True))
+    pad = 0.12 * (hi - lo)
+    ax.set_ylim(min(lo - pad, -0.0004), hi + 2.2 * pad)
+
     # Shading
-    ax.axhspan(-0.01, 0, alpha=0.06, color=COLORS["red"], zorder=0)
-    ax.axhspan(0, 0.04, alpha=0.06, color=COLORS["blue"], zorder=0)
-    ax.text(4.6, -0.003, "DA hurts", fontsize=8, color=COLORS["neutral"], ha="right")
-    ax.text(4.6, 0.002, "DA helps", fontsize=8, color=COLORS["neutral"], ha="right")
+    ax.axhspan(ax.get_ylim()[0], 0, alpha=0.06, color=COLORS["red"], zorder=0)
+    ax.axhspan(0, ax.get_ylim()[1], alpha=0.06, color=COLORS["blue"], zorder=0)
+    ax.text(4.6, ax.get_ylim()[0] * 0.55, "DA hurts", fontsize=8,
+            color=COLORS["neutral"], ha="right")
+    ax.text(4.6, ax.get_ylim()[1] * 0.14, "DA helps", fontsize=8,
+            color=COLORS["neutral"], ha="right")
 
     ax.set_xticks(x_pos)
     ax.set_xticklabels(ordered_labels, fontsize=9)

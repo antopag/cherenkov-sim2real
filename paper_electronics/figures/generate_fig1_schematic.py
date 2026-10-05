@@ -18,21 +18,21 @@ def main() -> None:
 
     # Cell colors: intensity reflects DA benefit magnitude
     cell_colors = {
-        (0, 1): "#e8e8e8",  # robust + sym: DA neutral/hurts
-        (1, 1): "#b3d9ff",  # sensitive + sym: DA helps
-        (0, 0): "#b3d9ff",  # robust + asym: DA helps (predicted)
-        (1, 0): "#4da6ff",  # sensitive + asym: DA helps strongly (predicted)
+        (0, 1): "#dce9f5",  # robust + sym: small gain
+        (1, 1): "#b3d9ff",  # sensitive + sym: larger gain
+        (0, 0): "#ededed",  # robust + asym: sign uncertain, untested
+        (1, 0): "#ededed",  # sensitive + asym: sign uncertain, untested
     }
 
     cell_text = {
-        (0, 1): "DA NEUTRAL\n/ HURTS",
-        (1, 1): "DA HELPS",
-        (0, 0): "DA HELPS\n(prediction,\nnot tested)",
-        (1, 0): "DA HELPS\nSTRONGLY\n(prediction,\nnot tested)",
+        (0, 1): "DA: SMALL GAIN\nre-select the\noperating point",
+        (1, 1): "DA: LARGER GAIN",
+        (0, 0): "SIGN UNCERTAIN\n(prediction,\nnot tested)",
+        (1, 0): "SIGN UNCERTAIN\n(prediction,\nnot tested)",
     }
 
     cell_carriers = {
-        (0, 1): "LR, MLP",
+        (0, 1): "LR; MLP intermediate\n(S(0.25) = 0.012)",
         (1, 1): "LightGBM,\nRF, ExtraTrees",
         (0, 0): "",
         (1, 0): "",

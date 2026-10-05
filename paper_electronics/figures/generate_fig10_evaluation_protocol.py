@@ -33,6 +33,8 @@ def main() -> None:
         ho = json.load(f)
     with open(base / "overlap_doseresponse.json") as f:
         dose = json.load(f)
+    with open(base / "review_checks.json") as f:
+        pairs15 = json.load(f)["pairs_15seed"]
 
     x = np.arange(len(CARRIERS))
     w = 0.38
@@ -50,8 +52,9 @@ def main() -> None:
     ax1.set_title("(a) What is scored", fontsize=10)
     ax1.legend(frameon=False, fontsize=7, loc="upper left")
 
-    # (b) pooled-AUC decomposition into pair populations
-    d7 = dose["0.7"]
+    # (b) pooled-AUC decomposition into pair populations, 15 seeds,
+    # the same seed set as the main matrix
+    d7 = pairs15
     for key, color, mk, lab in [("within_train", COLORS["red"], "s", "both from training set"),
                                 ("cross", COLORS["orange"], "D", "one of each"),
                                 ("within_ho", COLORS["blue"], "o", "both held-out")]:

@@ -19,6 +19,7 @@ CONFIGS = [
     ("head05", "Headline ×0.5", COLORS["orange"], "s"),
     ("head10", "Headline ×1.0", COLORS["blue"], "o"),
     ("head20", "Headline ×2.0", COLORS["red"], "D"),
+    ("pure_translation", "Pure translation", "#444444", "P"),
 ]
 
 
@@ -29,8 +30,15 @@ def half(ci):
 def main() -> None:
     base = Path(__file__).parent.parent / "data"
     ho = json.load(open(base / "heldout.json"))
+    rc = json.load(open(base / "review_checks.json"))
     pd_ = json.load(open(base / "paper_data.json"))
     shift = ho["shift"]
+    # pure translation: same schema as the shift block
+    shift["pure_translation"] = {
+        c: {"coral": {"delta_auc": rc["pure_translation"][c]["coral"]["delta_auc"]},
+            "damage": rc["pure_translation"][c]["damage"]}
+        for c in CARRIERS
+    }
     # headline x1.0 comes from the main 15-seed matrix
     shift["head10"] = {
         c: {"coral": {"delta_auc": pd_["matrix"][c]["coral"]["delta_auc"]},

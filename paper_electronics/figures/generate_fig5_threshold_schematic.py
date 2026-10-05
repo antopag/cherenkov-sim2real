@@ -50,10 +50,10 @@ def main() -> None:
                 if col == 1:
                     # The hyperplane still separates — shift doesn't break it
                     ax.text(
-                        0.5, 0.92, "Still separates",
-                        transform=ax.transAxes, fontsize=8,
-                        color=COLORS["green"], fontweight="bold",
-                        ha="center",
+                        0.5, 0.92, "Ranking preserved,\nthreshold displaced",
+                        transform=ax.transAxes, fontsize=7.5,
+                        color=COLORS["orange"], fontweight="bold",
+                        ha="center", va="top",
                     )
             else:
                 # Tree classifier: axis-aligned threshold at x=3.0
