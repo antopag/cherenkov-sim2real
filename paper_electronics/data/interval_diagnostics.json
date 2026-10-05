@@ -1,0 +1,135 @@
+{
+ "recovery_fraction": [
+  {
+   "carrier": "Logistic regression",
+   "R_mean_matching": -0.002,
+   "R_mean_matching_lo": -0.004,
+   "R_mean_matching_hi": -0.0,
+   "R_coral": 0.579,
+   "R_coral_lo": 0.549,
+   "R_coral_hi": 0.614,
+   "R_mmd_rbf": 0.894,
+   "R_mmd_rbf_lo": 0.845,
+   "R_mmd_rbf_hi": 0.944
+  },
+  {
+   "carrier": "MLP-shallow",
+   "R_mean_matching": 0.4,
+   "R_mean_matching_lo": -0.479,
+   "R_mean_matching_hi": 1.175,
+   "R_coral": 1.174,
+   "R_coral_lo": -0.204,
+   "R_coral_hi": 2.618,
+   "R_mmd_rbf": 0.665,
+   "R_mmd_rbf_lo": -0.667,
+   "R_mmd_rbf_hi": 1.961
+  },
+  {
+   "carrier": "LightGBM",
+   "R_mean_matching": 0.761,
+   "R_mean_matching_lo": 0.627,
+   "R_mean_matching_hi": 0.901,
+   "R_coral": 0.985,
+   "R_coral_lo": 0.847,
+   "R_coral_hi": 1.131,
+   "R_mmd_rbf": 0.896,
+   "R_mmd_rbf_lo": 0.758,
+   "R_mmd_rbf_hi": 1.042
+  },
+  {
+   "carrier": "ExtraTrees",
+   "R_mean_matching": 0.923,
+   "R_mean_matching_lo": 0.707,
+   "R_mean_matching_hi": 1.151,
+   "R_coral": 0.838,
+   "R_coral_lo": 0.685,
+   "R_coral_hi": 0.988,
+   "R_mmd_rbf": 0.907,
+   "R_mmd_rbf_lo": 0.727,
+   "R_mmd_rbf_hi": 1.067
+  },
+  {
+   "carrier": "Random Forest",
+   "R_mean_matching": 0.856,
+   "R_mean_matching_lo": 0.66,
+   "R_mean_matching_hi": 1.052,
+   "R_coral": 0.981,
+   "R_coral_lo": 0.788,
+   "R_coral_hi": 1.16,
+   "R_mmd_rbf": 0.854,
+   "R_mmd_rbf_lo": 0.627,
+   "R_mmd_rbf_hi": 1.101
+  }
+ ],
+ "mmd_minus_coral": [
+  {
+   "carrier": "Logistic regression",
+   "n_seeds": 15,
+   "mean": 0.00138,
+   "ci95_lo": 0.00115,
+   "ci95_hi": 0.00162,
+   "excludes_zero": true
+  },
+  {
+   "carrier": "MLP-shallow",
+   "n_seeds": 15,
+   "mean": -0.00171,
+   "ci95_lo": -0.00526,
+   "ci95_hi": 0.00183,
+   "excludes_zero": false
+  },
+  {
+   "carrier": "LightGBM",
+   "n_seeds": 15,
+   "mean": -0.00069,
+   "ci95_lo": -0.00174,
+   "ci95_hi": 0.00037,
+   "excludes_zero": false
+  },
+  {
+   "carrier": "ExtraTrees",
+   "n_seeds": 15,
+   "mean": 0.00051,
+   "ci95_lo": -0.00124,
+   "ci95_hi": 0.00226,
+   "excludes_zero": false
+  },
+  {
+   "carrier": "Random Forest",
+   "n_seeds": 15,
+   "mean": -0.00079,
+   "ci95_lo": -0.00258,
+   "ci95_hi": 0.001,
+   "excludes_zero": false
+  }
+ ],
+ "heldout_auc_std_range": {
+  "n_cells": 20,
+  "min": 0.0045,
+  "min_cell": "Random Forest / srconly",
+  "max": 0.0085,
+  "max_cell": "MLP-shallow / mmd_rbf"
+ },
+ "heldout_auc_std_cells": {
+  "Logistic regression / srconly": 0.0058,
+  "Logistic regression / mean_matching": 0.0058,
+  "Logistic regression / coral": 0.0056,
+  "Logistic regression / mmd_rbf": 0.0056,
+  "MLP-shallow / srconly": 0.0071,
+  "MLP-shallow / mean_matching": 0.0084,
+  "MLP-shallow / coral": 0.0081,
+  "MLP-shallow / mmd_rbf": 0.0085,
+  "LightGBM / srconly": 0.005,
+  "LightGBM / mean_matching": 0.0048,
+  "LightGBM / coral": 0.0048,
+  "LightGBM / mmd_rbf": 0.0051,
+  "ExtraTrees / srconly": 0.0052,
+  "ExtraTrees / mean_matching": 0.006,
+  "ExtraTrees / coral": 0.0057,
+  "ExtraTrees / mmd_rbf": 0.006,
+  "Random Forest / srconly": 0.0045,
+  "Random Forest / mean_matching": 0.0056,
+  "Random Forest / coral": 0.0057,
+  "Random Forest / mmd_rbf": 0.0051
+ }
+}
