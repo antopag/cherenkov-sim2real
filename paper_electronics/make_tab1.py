@@ -48,10 +48,10 @@ def main() -> None:
         "relative to source-only, with the half-width of the paired 95\\% $t$-interval in "
         "parentheses (units of $10^{-3}$; an asterisk marks intervals containing zero); macro-F1 at "
         "the default operating point and its paired $\\Delta$; Q-factor at the default operating "
-        "point. $R$ is a ratio of means with a bootstrap interval (Section~\\ref{sec:scenario}); "
-        "the MLP entries are undetermined because its damage is too small to divide by. The "
+        "point. $R$ is a ratio of means with a bootstrap interval (Section~\\ref{sec:scenario}), reported for every cell in Table~\\ref{tab:recovery_ci}; "
+        "the MLP entries are undetermined here because its damage is too small to divide by. The "
         "ranking metric and the two fixed-threshold metrics disagree on the linear carrier, where "
-        "alignment leaves the ranking essentially unchanged but moves the score offset; "
+        "alignment changes the ranking only slightly but moves the score offset; "
         "Section~\\ref{sec:operating_points} resolves the disagreement.}}\\label{tab:full_results}")
     add("\\begin{tabular}{lccccc}")
     add("\\toprule")
@@ -102,6 +102,41 @@ def main() -> None:
     out = HERE / "manuscript" / "tables" / "tab1_full_results.tex"
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("written", out, f"({len(L)} lines)")
+
+    # ---- companion table: the bootstrap intervals behind the R rows above ----
+    K = []
+    put = K.append
+
+    def rci(c, m):
+        e = M[c][m]["recovery"]
+        lo, hi = e["ci95"]
+        z = lambda v: 0.0 if abs(v) < 5e-3 else v
+        return f"${z(e['mean']):.2f}$ $[{z(lo):.2f}, {z(hi):.2f}]$"
+
+    put("\\begin{table}[H]")
+    put("\\centering")
+    put("\\small")
+    put("\\caption{\\rev{Recovered fraction $R$ of the shift damage, with its 95\\% bootstrap "
+        "interval (ratio of means, percentile bootstrap, $B = 10^4$ resamples of the 15 "
+        "carrier--seed pairs; Section~\\ref{sec:scenario}). These are the intervals behind the "
+        "$R$ rows of Table~\\ref{tab:full_results}. The MLP intervals span zero and are more "
+        "than unit width, which is why that carrier is marked undetermined there: its damage is "
+        "too small to divide by, not its recovery particularly "
+        "uncertain.}}\\label{tab:recovery_ci}")
+    put("\\begin{tabular}{lccc}")
+    put("\\toprule")
+    put("Carrier & Mean matching & CORAL & MMD-rbf \\\\")
+    put("\\midrule")
+    for c, lab in ORDER:
+        put(R + lab + "} & "
+            + " & ".join(R + rci(c, m) + "}" for m, _ in METHODS[1:]) + " \\\\")
+    put("\\bottomrule")
+    put("\\end{tabular}")
+    put("\\end{table}")
+
+    out2 = HERE / "manuscript" / "tables" / "tab_recovery_ci.tex"
+    out2.write_text("\n".join(K) + "\n", encoding="utf-8")
+    print("written", out2, f"({len(K)} lines)")
 
 
 if __name__ == "__main__":
