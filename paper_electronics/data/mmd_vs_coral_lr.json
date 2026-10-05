@@ -1,0 +1,51 @@
+{
+ "rows": [
+  {
+   "method": "srconly",
+   "sd_gap_WIDTH": 0.07972,
+   "sd_gap_LENGTH": 0.03936,
+   "sd_gap_SIZE": 0.00277,
+   "auc_lr": 0.6817
+  },
+  {
+   "method": "mean_matching",
+   "sd_gap_WIDTH": 0.07972,
+   "sd_gap_LENGTH": 0.03936,
+   "sd_gap_SIZE": 0.00277,
+   "auc_lr": 0.6817
+  },
+  {
+   "method": "coral",
+   "sd_gap_WIDTH": 0.0001,
+   "sd_gap_LENGTH": 4e-05,
+   "sd_gap_SIZE": 2e-05,
+   "auc_lr": 0.68424,
+   "W_minus_I_frob": 0.146,
+   "W_diag_min": 0.9058,
+   "W_diag_max": 1.052,
+   "W_diag_WIDTH": 0.9058,
+   "W_diag_LENGTH": 0.9578,
+   "W_diag_SIZE": 1.0215
+  },
+  {
+   "method": "mmd_rbf",
+   "sd_gap_WIDTH": 0.01323,
+   "sd_gap_LENGTH": 0.00379,
+   "sd_gap_SIZE": 0.00411,
+   "auc_lr": 0.68563,
+   "W_minus_I_frob": 0.0801,
+   "W_diag_min": 0.9468,
+   "W_diag_max": 1.0201,
+   "W_diag_WIDTH": 0.9468,
+   "W_diag_LENGTH": 0.9849,
+   "W_diag_SIZE": 1.002
+  }
+ ],
+ "paired_difference": {
+  "metric": "AUC(MMD-rbf) - AUC(CORAL) on LR, held-out, paired",
+  "mean": 0.00138,
+  "ci95_lo": 0.00115,
+  "ci95_hi": 0.00162,
+  "n_seeds": 15
+ }
+}
