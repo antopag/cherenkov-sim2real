@@ -66,7 +66,7 @@ logger = logging.getLogger("heldout")
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUT = PROJECT_ROOT / "paper_electronics" / "data" / "heldout.json"
 METHODS3 = ["srconly", "mean_matching", "coral"]
-METHODS4 = METHODS3 + ["mmd_rbf"]
+METHODS4 = [*METHODS3, "mmd_rbf"]
 
 
 def prepare(x_all, y_all, seed, families=None, intensity=1.0, with_rbf=False):

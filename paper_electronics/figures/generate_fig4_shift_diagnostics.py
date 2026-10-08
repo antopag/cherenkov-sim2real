@@ -52,7 +52,7 @@ def main() -> None:
     ax.errorbar(xs, ys, yerr=errs if errs.any() else None, fmt="o",
                 color=COLORS["blue"], ecolor=COLORS["blue"], capsize=3,
                 markersize=6, zorder=3)
-    for (_, label, idx), y in zip(CARRIERS, ys):
+    for (_, label, idx), y in zip(CARRIERS, ys, strict=True):
         ax.annotate(label, (idx, y), textcoords="offset points", xytext=(0, 8),
                     ha="center", fontsize=9, color="#333333")
 

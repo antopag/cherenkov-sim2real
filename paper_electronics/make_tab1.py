@@ -17,6 +17,11 @@ METHODS = [("srconly", "Source-only"), ("mean_matching", "Mean matching"),
 R = "\\rev{"
 
 
+def zero(v: float) -> float:
+    """Collapse a value that is zero to within rounding onto exact zero."""
+    return 0.0 if abs(v) < 5e-3 else v
+
+
 def cells(fn):
     return " & ".join(fn(c) for c, _ in ORDER)
 
@@ -111,8 +116,8 @@ def main() -> None:
     def rci(c, m):
         e = M[c][m]["recovery"]
         lo, hi = e["ci95"]
-        z = lambda v: 0.0 if abs(v) < 5e-3 else v
-        return f"${z(e['mean']):.2f}$ $[{z(lo):.2f}, {z(hi):.2f}]$"
+        return (f"${zero(e['mean']):.2f}$ "
+                f"$[{zero(lo):.2f}, {zero(hi):.2f}]$")
 
     put("\\begin{table}[H]")
     put("\\centering")

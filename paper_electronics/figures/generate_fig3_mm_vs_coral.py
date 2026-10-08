@@ -18,7 +18,6 @@ def main() -> None:
         data = json.load(f)
 
     deltas = data["s0_deltas"]
-    summary = data["s0_summary"]
 
     carriers = ["lgbm", "et", "rf"]
     carrier_labels = [

@@ -104,7 +104,6 @@ def block_feature_stats(x_all, y_all):
 def block_pure_translation(x_all, y_all):
     out: dict[str, Any] = {}
     ys = y_all.to_numpy()
-    cols = list(x_all.columns)
     for clf in CARRIERS:
         tag = CARRIER_TAG[clf]
         recs: dict[str, list] = {m: [] for m in METHODS3}
@@ -156,7 +155,6 @@ def pair_auc(y_a, s_a, y_b, s_b):
 def block_pairs_15(x_all, y_all):
     out: dict[str, Any] = {}
     ys = y_all.to_numpy()
-    cols = list(x_all.columns)
     for clf in CARRIERS:
         tag = CARRIER_TAG[clf]
         acc = {k: [] for k in ("within_train", "within_ho", "cross", "full_target")}

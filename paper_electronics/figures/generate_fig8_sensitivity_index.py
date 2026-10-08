@@ -18,15 +18,16 @@ DELTAS = [0.1, 0.25, 0.5, 1.0]
 
 def main() -> None:
     base = Path(__file__).parent.parent / "data"
-    sens = json.load(open(base / "revision2.json"))["sens"]
-    deltas = json.load(open(base / "paper_data.json"))["s0_deltas"]
+    sens = json.loads((base / "revision2.json").read_text(encoding="utf-8"))["sens"]
+    deltas = json.loads(
+        (base / "paper_data.json").read_text(encoding="utf-8"))["s0_deltas"]
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(DOUBLE_COL_WIDTH, DOUBLE_COL_WIDTH * 0.42))
 
     # (a) S(delta) curves per carrier
     palette = [COLORS["neutral"], COLORS["purple"], COLORS["orange"], COLORS["green"], COLORS["blue"]]
     markers = ["o", "^", "s", "D", "v"]
-    for (tag, label), color, mk in zip(CARRIERS, palette, markers):
+    for (tag, label), color, mk in zip(CARRIERS, palette, markers, strict=True):
         s = sens[tag]
         y = [s[f"auc_drop_{d}_mean"] for d in DELTAS]
         e = [s[f"auc_drop_{d}_std"] for d in DELTAS]
@@ -42,7 +43,7 @@ def main() -> None:
 
     # (b) S(0.25) vs CORAL dAUC, per seed and per carrier mean
     xs_all, ys_all = [], []
-    for (tag, label), color, mk in zip(CARRIERS, palette, markers):
+    for (tag, label), color, mk in zip(CARRIERS, palette, markers, strict=True):
         per = sens[tag]["per_seed"]
         x = np.array([p["auc_drop_0.25"] for p in per])
         y = np.array(deltas[f"coral__{tag}"]["delta_auc_per_seed"])

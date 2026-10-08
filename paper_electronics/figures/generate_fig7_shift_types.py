@@ -29,9 +29,9 @@ def half(ci):
 
 def main() -> None:
     base = Path(__file__).parent.parent / "data"
-    ho = json.load(open(base / "heldout.json"))
-    rc = json.load(open(base / "review_checks.json"))
-    pd_ = json.load(open(base / "paper_data.json"))
+    ho = json.loads((base / "heldout.json").read_text(encoding="utf-8"))
+    rc = json.loads((base / "review_checks.json").read_text(encoding="utf-8"))
+    pd_ = json.loads((base / "paper_data.json").read_text(encoding="utf-8"))
     shift = ho["shift"]
     # pure translation: same schema as the shift block
     shift["pure_translation"] = {

@@ -17,7 +17,8 @@ def half(ci: list[float]) -> float:
 
 
 def main() -> None:
-    depth = json.load(open(Path(__file__).parent.parent / "data" / "heldout.json"))["depth"]
+    depth = json.loads((Path(__file__).parent.parent / "data" / "heldout.json")
+                       .read_text(encoding="utf-8"))["depth"]
     tags = sorted(depth, key=lambda t: (t == "none", int(t) if t != "none" else 0))
     x = np.arange(len(tags))
     labels = ["∞" if depth[t]["max_depth"] is None else str(depth[t]["max_depth"]) for t in tags]

@@ -58,6 +58,10 @@ KEYS = ["train_unpert", "train_pert", "holdout_unpert", "holdout_pert",
         "full_target", "train_pert_coral", "holdout_pert_coral", "full_target_coral"]
 
 
+def auc_of(model, x, y) -> float:
+    """AUC of a fitted model on one event set."""
+    return float(roc_auc_score(y, model.predict_proba(x)[:, 1]))
+
 def main() -> None:
     x_all, y_all = load_base()
     xs, ys = x_all.to_numpy(), y_all.to_numpy()
@@ -77,18 +81,16 @@ def main() -> None:
             al = CORAL(lambda_reg=1e-3).fit(xs_p, xt_p)
 
             m = make_classifier(clf, seed).fit(tr, ys[itr])
-            auc = lambda X, Y: float(roc_auc_score(Y, m.predict_proba(X)[:, 1]))  # noqa: E731
-            per["train_unpert"].append(auc(xs_p[itr], ys[itr]))
-            per["train_pert"].append(auc(xt_p[itr], ys[itr]))
-            per["holdout_unpert"].append(auc(xs_p[iva], ys[iva]))
-            per["holdout_pert"].append(auc(xt_p[iva], ys[iva]))
-            per["full_target"].append(auc(xt_p, ys))
+            per["train_unpert"].append(auc_of(m, xs_p[itr], ys[itr]))
+            per["train_pert"].append(auc_of(m, xt_p[itr], ys[itr]))
+            per["holdout_unpert"].append(auc_of(m, xs_p[iva], ys[iva]))
+            per["holdout_pert"].append(auc_of(m, xt_p[iva], ys[iva]))
+            per["full_target"].append(auc_of(m, xt_p, ys))
 
             mc = make_classifier(clf, seed).fit(al.transform(tr), ys[itr])
-            aucc = lambda X, Y: float(roc_auc_score(Y, mc.predict_proba(X)[:, 1]))  # noqa: E731
-            per["train_pert_coral"].append(aucc(xt_p[itr], ys[itr]))
-            per["holdout_pert_coral"].append(aucc(xt_p[iva], ys[iva]))
-            per["full_target_coral"].append(aucc(xt_p, ys))
+            per["train_pert_coral"].append(auc_of(mc, xt_p[itr], ys[itr]))
+            per["holdout_pert_coral"].append(auc_of(mc, xt_p[iva], ys[iva]))
+            per["full_target_coral"].append(auc_of(mc, xt_p, ys))
 
         out[tag] = {k: {"mean": round(float(np.mean(v)), 4),
                         "std": round(float(np.std(v, ddof=1)), 4)} for k, v in per.items()}

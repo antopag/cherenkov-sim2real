@@ -53,6 +53,8 @@ src = ["src", "tests", "scripts"]
 extend-exclude = ["notebooks", "data", "results", "mlruns"]
 
 [tool.ruff.lint]
+# U+00D7 is the correct glyph in figure legends such as 'Headline x0.5'.
+allowed-confusables = ["×"]
 select = [
   "E",   # pycodestyle errors
   "W",   # pycodestyle warnings
@@ -71,7 +73,8 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["N802", "N803", "N806"]   # test names + X,y convention
-"scripts/**/*.py" = ["N999", "N806"]         # script filenames + X,y convention
+"scripts/**/*.py" = ["N999", "N806", "N803"]  # script filenames + X,y convention
+"paper_electronics/**/*.py" = ["N806"]       # L, M, D, K line/table accumulators
 "src/**/adaptation/**/*.py" = ["N803"]       # X parameter convention
 "src/**/data/**/*.py" = ["N803"]             # X parameter convention
 "src/**/perturbations/**/*.py" = ["N803"]    # X parameter convention

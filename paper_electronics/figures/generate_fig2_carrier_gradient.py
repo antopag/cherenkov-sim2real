@@ -29,7 +29,6 @@ def main() -> None:
         data = json.load(f)
 
     deltas = data["s0_deltas"]
-    summary = data["s0_summary"]
 
     x_pos = np.arange(5)
     ordered_carriers = [CARRIERS_ORDER[i] for i in SENSITIVITY_ORDER]

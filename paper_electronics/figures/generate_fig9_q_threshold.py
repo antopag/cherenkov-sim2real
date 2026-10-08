@@ -17,9 +17,10 @@ METHODS = [("srconly", COLORS["neutral"], "Source-only"), ("mean_matching", COLO
 
 
 def main() -> None:
-    q = json.load(open(Path(__file__).parent.parent / "data" / "heldout.json"))["q"]
+    q = json.loads((Path(__file__).parent.parent / "data" / "heldout.json")
+                   .read_text(encoding="utf-8"))["q"]
     fig, axes = plt.subplots(1, 3, figsize=(DOUBLE_COL_WIDTH, DOUBLE_COL_WIDTH * 0.36))
-    for ax, (tag, title) in zip(axes, PANELS):
+    for ax, (tag, title) in zip(axes, PANELS, strict=True):
         for m, color, label in METHODS:
             g = q[tag][m]["q_grid_mean"]
             th = np.array([float(t) for t, v in g.items() if v is not None])

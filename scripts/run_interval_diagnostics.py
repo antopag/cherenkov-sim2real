@@ -85,7 +85,7 @@ def main() -> None:
 
     # ------------------------------------------------------------------ A3
     sds = {f"{LABEL[c]} / {m}": mat[c][m]["auc"]["std"]
-           for c in CARRIERS for m in ["srconly"] + METHODS}
+           for c in CARRIERS for m in ["srconly", *METHODS]}
     lo_k = min(sds, key=lambda k: sds[k])
     hi_k = max(sds, key=lambda k: sds[k])
     a3 = {"n_cells": len(sds), "min": sds[lo_k], "min_cell": lo_k,

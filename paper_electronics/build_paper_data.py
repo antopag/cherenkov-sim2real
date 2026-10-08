@@ -86,7 +86,7 @@ def main() -> None:
         out["damage"][c]["auc_target_heldout"] = round(float(auc_src_t.mean()), 4)
 
         out["matrix"][c] = {}
-        for m in ["srconly"] + METHODS:
+        for m in ["srconly", *METHODS]:
             per = mat[c][m]["per_seed"]
             entry: dict[str, Any] = {
                 k: {"mean": mat[c][m][k]["mean"], "std": mat[c][m][k]["std"]}
