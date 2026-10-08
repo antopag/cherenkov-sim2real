@@ -105,3 +105,5 @@ paper_electronics/*.tex
 # Internal planning documents (private working copy only)
 PLAN.md
 COMPLETION_PLAN.md
+# Manuscript-adjacent working notes; the manuscript itself is excluded above.
+paper_electronics/response_to_reviewers_notes.md

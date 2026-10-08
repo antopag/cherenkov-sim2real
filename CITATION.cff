@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software or the benchmark results, please cite the paper below."
 title: "cherenkov-sim2real: carrier-domain adaptation interaction benchmark"
-version: "1.0.0"
-date-released: "2026-09-16"
+version: "1.1.0"
+date-released: "2026-10-08"
 license: MIT
 repository-code: "https://github.com/antopag/cherenkov-sim2real"
 authors:
@@ -25,6 +25,6 @@ preferred-citation:
     - family-names: Pagliaro
       given-names: Antonio
       orcid: "https://orcid.org/0000-0002-6841-1362"
-  journal: "Electronics"
+  journal: "Algorithms"
   year: 2026
-  notes: "Under review."
+  notes: "Revision under review (MDPI Algorithms, manuscript algorithms-4602126)."
