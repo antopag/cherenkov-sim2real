@@ -81,7 +81,12 @@ def main() -> None:
 
     for ax in (ax1, ax2):
         ax.set_xticks(x)
-        ax.set_xticklabels([lab for _, lab in CARRIERS], fontsize=7.5, rotation=30)
+        # Anchor the rotated labels at their right end so that the longer ones
+        # (ExtraTrees, RF) cannot run into each other.
+        ax.set_xticklabels(
+            [lab for _, lab in CARRIERS],
+            fontsize=7.5, rotation=30, ha="right", rotation_mode="anchor",
+        )
 
     fig.tight_layout(w_pad=1.9)
     save_figure(fig, "fig10_evaluation_protocol")

@@ -11,7 +11,7 @@ across both **tabular Hillas parameters** and **Cherenkov shower images**,
 using only **publicly available** datasets (UCI MAGIC, MAGIC public
 releases, CTA Prod5, optionally H.E.S.S. DL3 / VERITAS).
 
-This work accompanies the paper *"When Feature Alignment Helps, Hurts, or Washes Out: Carrier-Dependent Domain Adaptation for Cherenkov Telescope Event Classification"* (under review).
+This work accompanies the paper *"When Feature Alignment Helps, Hurts, or Washes Out: Carrier-Dependent Domain Adaptation for Cherenkov Telescope Event Classification"*, accepted in *Algorithms* (MDPI), manuscript algorithms-4602126.
 
 - See **[CLAUDE.md](CLAUDE.md)** for contributor and AI-assistant guidelines,
   reproducibility rules, and the project's conventions.

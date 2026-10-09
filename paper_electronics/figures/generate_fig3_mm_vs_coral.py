@@ -55,21 +55,35 @@ def main() -> None:
         color=COLORS["blue"], label="CORAL", alpha=0.85,
     )
 
-    # Annotate gap
+    # Headroom for the gap annotations and the legend, so that neither can fall
+    # on a bar or on an error bar.
+    bar_top = max(
+        v + e
+        for vals, errs in ((mm_vals, mm_errs), (coral_vals, coral_errs))
+        for v, e in zip(vals, errs, strict=True)
+    )
+    ax.set_ylim(0, bar_top * 1.30)
+
+    # Annotate gap, all at the same height just above the tallest error bar.
+    # The sign is a true minus (U+2212), not a hyphen.
     for i, _clf in enumerate(carriers):
         gap = coral_vals[i] - mm_vals[i]
-        y_top = max(coral_vals[i], mm_vals[i]) + max(coral_errs[i], mm_errs[i]) + 0.001
+        label = f"\u0394={gap:+.4f}" if abs(gap) > 0.0005 else "\u0394\u22480"
         ax.text(
-            x_pos[i], y_top + 0.0005,
-            f"\u0394={gap:+.004f}" if abs(gap) > 0.0005 else "\u0394\u22480",
-            ha="center", fontsize=8, color="#333333",
+            x_pos[i], bar_top * 1.06,
+            label.replace("-", "\u2212"),
+            ha="center", va="bottom", fontsize=8, color="#333333",
         )
 
     ax.axhline(0, color=COLORS["neutral"], linestyle="--", linewidth=0.8)
     ax.set_xticks(x_pos)
     ax.set_xticklabels(carrier_labels, fontsize=9)
     ax.set_ylabel(r"$\Delta$AUC vs source-only")
-    ax.legend(loc="upper left", frameon=False)
+    # Legend above the axes: inside, it sat on the LightGBM error bar.
+    ax.legend(
+        loc="lower center", bbox_to_anchor=(0.5, 1.01), ncol=2,
+        frameon=False, borderaxespad=0.0,
+    )
 
     save_figure(fig, "fig3_mm_vs_coral")
     print("Fig 3 saved.")

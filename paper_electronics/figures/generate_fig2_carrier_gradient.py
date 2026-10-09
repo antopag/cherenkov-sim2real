@@ -22,6 +22,9 @@ CARRIER_LABELS = [
 # Reorder by marginal-sensitivity (LR < MLP < LGBM < ET < RF)
 SENSITIVITY_ORDER = [0, 4, 1, 3, 2]  # indices into CARRIERS_ORDER
 
+# Typographic minus (U+2212), not a hyphen: the journal asks for it in artwork.
+MINUS = chr(0x2212)
+
 
 def main() -> None:
     data_path = Path(__file__).parent.parent / "data" / "paper_data.json"
@@ -60,13 +63,15 @@ def main() -> None:
             capsize=4, linewidth=1.5, label=label,
         )
 
-        # Annotate CORAL deltas (only for CORAL to avoid clutter)
+        # Annotate CORAL deltas (only for CORAL to avoid clutter). The label sits
+        # centred above the upper cap of its own error bar, so it cannot fall on
+        # the connecting line or run past the right-hand edge of the axes.
         if method == "coral":
-            for xp, yp, ann in zip(x_pos, y_vals, annotations, strict=True):
+            for xp, yp, ye, ann in zip(x_pos, y_vals, y_errs, annotations, strict=True):
                 ax.annotate(
-                    ann, (xp, yp),
-                    textcoords="offset points", xytext=(10, 8),
-                    ha="left", fontsize=8, color=color,
+                    ann.replace("-", MINUS), (xp, yp + ye),
+                    textcoords="offset points", xytext=(0, 6),
+                    ha="center", va="bottom", fontsize=8, color=color,
                 )
 
     # Reference line
@@ -76,7 +81,8 @@ def main() -> None:
     lo = min(v - e for ys, es in series for v, e in zip(ys, es, strict=True))
     hi = max(v + e for ys, es in series for v, e in zip(ys, es, strict=True))
     pad = 0.12 * (hi - lo)
-    ax.set_ylim(min(lo - pad, -0.0004), hi + 2.2 * pad)
+    # Extra headroom at the top so that the legend clears the highest annotation.
+    ax.set_ylim(min(lo - pad, -0.0004), hi + 3.4 * pad)
 
     # Shading
     ax.axhspan(ax.get_ylim()[0], 0, alpha=0.06, color=COLORS["red"], zorder=0)
