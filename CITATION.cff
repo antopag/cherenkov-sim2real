@@ -1,10 +1,15 @@
 cff-version: 1.2.0
 message: "If you use this software or the benchmark results, please cite the paper below."
 title: "cherenkov-sim2real: carrier-domain adaptation interaction benchmark"
-version: "1.1.0"
+version: "1.0.0"
 date-released: "2026-10-09"
 license: MIT
+doi: "10.5281/zenodo.23257260"
 repository-code: "https://github.com/antopag/cherenkov-sim2real"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23257260"
+    description: "Archived release v1.0.0 accompanying the accepted paper."
 authors:
   - family-names: Pagliaro
     given-names: Antonio
